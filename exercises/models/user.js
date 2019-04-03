@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     default: false
   },
   birthDate: Date,
-  pets: [{type: String}],
+  pets: [{ type: String }],
   address: {
     other: Boolean,
     street: String,
@@ -28,6 +28,6 @@ const userSchema = new mongoose.Schema({
     city: String,
     State: String
   }
-})
+});
 
-module.exports = mongoose.model('user', userSchema)
+module.exports = mongoose.model("user", userSchema);

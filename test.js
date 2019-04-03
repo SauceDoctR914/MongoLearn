@@ -5,7 +5,15 @@ const connect = () => {
 };
 
 const student = new mongoose.Schema({
-  firstName: String
+  firstName: { type: String, required: true },
+  info: {
+    school: {
+      type: String
+    },
+    shoeSize: {
+      type: Number
+    }
+  }
 });
 
 const Student = mongoose.model("student", student);
@@ -13,6 +21,6 @@ const Student = mongoose.model("student", student);
 connect()
   .then(async connection => {
     const student = await Student.create({ firstName: "Gavin" });
-    console.log(student);
+    // Student.find({firstName: "Gavin"})
   })
   .catch(e => console.error(e));
