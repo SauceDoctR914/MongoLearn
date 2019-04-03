@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 const connect = () => {
-  return mongoose.connect("mongodb://localhost:27017/whatever");
+  return mongoose.connect(
+    "mongodb://localhost:27017/whatever",
+    { useNewUrlParser: true }
+  );
 };
 
 const student = new mongoose.Schema({
@@ -15,7 +18,7 @@ const student = new mongoose.Schema({
     }
   },
   school: {
-    type: mongoose.Scheme.Type.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "school"
   }
@@ -26,7 +29,8 @@ const school = new mongoose.Schema({
   name: String,
   openSince: Number,
   students: Number,
-  isGreat: Boolean
+  isGreat: Boolean,
+  staff: [{ type: String }]
 });
 
 const School = mongoose.model("school", school);
@@ -36,32 +40,35 @@ connect()
       name: "mlk elementry",
       openSince: 2009,
       students: 1000,
-      isGreat: true
+      isGreat: true,
+      staff: ["e", "b", "g"]
     };
-
-    const school2 = School.create({
+    const school2 = {
       name: "Larry Middle School",
       openSince: 1980,
       students: 600,
-      isGreat: false
-    });
+      isGreat: false,
+      staff: ["a", "b", "c"]
+    };
     const schools = await School.create([schoolConfig, school2]);
-    const match2 = await School.findOne({ students: { $gt: 600 } }).exec();
-    const school = await School.findOneAndUpdate(
-      { name: "mlk elementry" },
-      { name: "mlk elementry" },
-      { upsert: true, new: true }
-    ).exec();
-    // const student = await Student.create({
-    //   firstName: "Gavin",
-    //   school: school._id
-    // });
-    // const student2 = await Student.create({
-    //   firstName: "Luke",
-    //   school: school._id
-    // });
-    const match = await Student.findById(student.id)
-      .populate()
-      .exec();
+    const match2 = await School.find({ staff: "b" }).exec();
+    console.log(match2);
   })
+  // const school = await School.findOneAndUpdate(
+  //   { name: "mlk elementry" },
+  //   { name: "mlk elementry" },
+  //   { upsert: true, new: true }
+  // ).exec();
+  // const student = await Student.create({
+  //   firstName: "Gavin",
+  //   school: school._id
+  // });
+  // const student2 = await Student.create({
+  //   firstName: "Luke",
+  //   school: school._id
+  // });
+  // const match = await Student.findById(student.id)
+  //   .populate()
+  //   .exec();
+
   .catch(e => console.error(e));
