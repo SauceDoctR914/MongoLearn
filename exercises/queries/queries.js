@@ -10,7 +10,6 @@ const postsForAuthor = authorId => {
 
 const fullPostById = id => {
   return Post.findById(id)
-    .exec()
     .populate("author")
     .populate("similarPosts")
     .exec();
@@ -29,7 +28,11 @@ const postByContentLength = (maxContentLength, minContentLength) => {
 };
 
 const addSimilarPosts = (postId, similarPosts) => {
-  return Post;
+  return Post.findByIdAndUpdate(
+    postId,
+    { $push: { similarPosts: { $each: similarPosts } } },
+    { new: true }
+  ).exec();
 };
 
 module.exports = {
