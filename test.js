@@ -33,6 +33,10 @@ const school = new mongoose.Schema({
   staff: [{ type: String }]
 });
 
+school.virtual("staffCount").get(function() {
+  return this.staff.length;
+});
+
 const School = mongoose.model("school", school);
 connect()
   .then(async connection => {
@@ -51,11 +55,11 @@ connect()
       staff: ["a", "b", "c"]
     };
     const schools = await School.create([schoolConfig, school2]);
-    const match2 = await School.find({ $in: { staff: ["b", "g"] } })
+    const match2 = await School.find({ staff: { $in: ["b", "g"] } })
       .sort("-openSince")
-      .limit(2)
+      .limit(1)
       .exec();
-    console.log(match2);
+    console.log(school2.staffCount, "yo", school2);
   })
   // const school = await School.findOneAndUpdate(
   //   { name: "mlk elementry" },
