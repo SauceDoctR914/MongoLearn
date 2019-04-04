@@ -51,7 +51,10 @@ connect()
       staff: ["a", "b", "c"]
     };
     const schools = await School.create([schoolConfig, school2]);
-    const match2 = await School.find({ staff: "b" }).exec();
+    const match2 = await School.find({ $in: { staff: ["b", "g"] } })
+      .sort("-openSince")
+      .limit(2)
+      .exec();
     console.log(match2);
   })
   // const school = await School.findOneAndUpdate(
