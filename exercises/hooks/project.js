@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const projectSchema = new mongoose.Schema({
   name: {
@@ -7,7 +7,7 @@ const projectSchema = new mongoose.Schema({
   },
   org: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'org',
+    ref: "org",
     required: true
   },
   dueOn: Date,
@@ -23,15 +23,14 @@ const projectSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   }
-})
+});
 
-projectSchema.index({
-  org: 1,
-  name: 1
-}, {unique: true})
+// projectSchema.index({
+//   org: 1,
+//   name: 1
+// }, {unique: true})
 
-
-projectSchema.virtual('budgetLeft').get(function() {
-  return this.budget - this.spent
-})
-module.exports = mongoose.model('project', projectSchema)
+// projectSchema.virtual('budgetLeft').get(function() {
+//   return this.budget - this.spent
+// })
+module.exports = mongoose.model("project", projectSchema);
