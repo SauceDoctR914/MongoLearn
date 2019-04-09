@@ -24,7 +24,17 @@ const projectSchema = new mongoose.Schema({
     default: false
   }
 });
+projectSchema.index(
+  {
+    org: 1,
+    name: 1
+  },
+  { unique: true }
+);
 
+projectSchema.virtual("budgetLeft").get(function() {
+  return this.budget - this.spent;
+});
 //go back and review what scott says about mongoose.Schema.Types.ObjectId
 //and references
 
