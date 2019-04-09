@@ -25,6 +25,9 @@ const projectSchema = new mongoose.Schema({
   }
 });
 
+//go back and review what scott says about mongoose.Schema.Types.ObjectId
+//and references
+
 // projectSchema.index({
 //   org: 1,
 //   name: 1

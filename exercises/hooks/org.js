@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const Project = require('./project')
-const cdnUrl = 'https://cdn.adminapp.com'
+const mongoose = require("mongoose");
+const Project = require("./project");
+const cdnUrl = "https://cdn.adminapp.com";
 
 const orgSchema = new mongoose.Schema({
   name: {
@@ -12,8 +12,8 @@ const orgSchema = new mongoose.Schema({
     status: {
       type: String,
       required: true,
-      default: ['active'],
-      enum: ['active', 'trialing', 'overdue', 'canceled']
+      default: ["active"],
+      enum: ["active", "trialing", "overdue", "canceled"]
     },
     last4: {
       type: Number,
@@ -21,16 +21,15 @@ const orgSchema = new mongoose.Schema({
       max: 4
     }
   }
-})
+});
 
+orgSchema.post("remove", async (doc, next) => {
+  await Project.remove({ org: doc._id }).exec();
+  next();
+});
+//
+// orgSchema.virtual('avatar').get(function() {
+//   return `${cdnUrl}/${this._id.toString()}`
+// })
 
-orgSchema.post('remove', async (doc, next) => {
-  await Project.remove({org: doc._id}).exec()
-  next()
-})
-
-orgSchema.virtual('avatar').get(function() {
-  return `${cdnUrl}/${this._id.toString()}`
-})
-
-module.exports = mongoose.model('org', orgSchema)
+module.exports = mongoose.model("org", orgSchema);
