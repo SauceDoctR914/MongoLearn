@@ -26,15 +26,25 @@ const connect = () => {
 };
 
 app.get("/note", async (req, res) => {
-  const notes = await Note.find({})
-    .lean()
-    .exec();
-  res.status(200).json(notes);
+  try {
+    const notes = await Note.find({})
+      .lean()
+      .exec();
+    res.status(200).json(notes);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send();
+  }
 });
 app.post("/note", async (req, res) => {
   const newNote = req.body;
-  const note = await Note.create(newNote);
-  res.status(201).json(note.toJSON());
+  try {
+    const note = await Note.create(newNote);
+    res.status(201).json(note.toJSON());
+  } catch (e) {
+    console.error(e);
+    res.status(500).send();
+  }
 });
 connect()
   .then(async connection => {
