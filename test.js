@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
-const morgan = require("dev");
+const morgan = require("morgan");
 const { urlencoded, json } = require("body-parser");
 
 const noteSchema = new mongoose.Schema({
@@ -16,25 +16,28 @@ const noteSchema = new mongoose.Schema({
   }
 });
 
-const Note = mongoose.model("note", noteschema);
+const Note = mongoose.model("note", noteSchema);
 app.use(morgan("dev"));
 app.use(urlencoded({ extended: true }));
-appluse(json());
+app.use(json());
 
 const connect = () => {
   return mongoose.connect("mongodb://localhost:27017/whatever");
 };
 
 app.get("/note", async (req, res) => {
-  const note = await Note.find({}).exec();
+  const notes = await Note.find({}).exec();
   res.status(200).json(notes);
 });
 app.post("/note", async (req, res) => {
   const note = await Note.create(noteToBeCreated);
   res.status(201).json(note.toJSON());
 });
-connect().then(async connection => {});
-app.listen(5000).catch(e => console.error(e));
+connect()
+  .then(async connection => {
+    app.listen(5000);
+  })
+  .catch(e => console.error(e));
 //const connect = () => {
 //   return mongoose.connect(
 //     "mongodb://localhost:27017/whatever",
