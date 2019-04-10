@@ -84,10 +84,6 @@ connect()
 //   staff: [{ type: String }]
 // });
 //
-// school.virtual("staffCount").get(function() {
-//   return this.staff.length;
-// });
-//
 // const School = mongoose.model("school", school);
 // connect()
 //   .then(async connection => {
@@ -103,7 +99,6 @@ connect()
 //       openSince: 1980,
 //       students: 600,
 //       isGreat: false,
-//       town: mongoose.Schema.Types.ObjectId,
 //       staff: ["a", "b", "c"]
 //     });
 // const schools = await School.create([schoolConfig, school2]);
@@ -114,18 +109,7 @@ connect()
 //     console.log(school2.staffCount);
 //   })
 //   .catch(e => console.error(e));
-// const town = mongoose.schema({
-//   name: String,
-//   population: Number,
-//   establish: Date
-// });
-//
-// const Town = mongoose.model("town", town);
-// const school = await School.findOneAndUpdate(
-//   { name: "mlk elementry" },
-//   { name: "mlk elementry" },
-//   { upsert: true, new: true }
-// ).exec();
+
 // const student = await Student.create({
 //   firstName: "Gavin",
 //   school: school._id
