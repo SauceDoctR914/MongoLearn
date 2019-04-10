@@ -26,11 +26,14 @@ const connect = () => {
 };
 
 app.get("/note", async (req, res) => {
-  const notes = await Note.find({}).exec();
+  const notes = await Note.find({})
+    .lean()
+    .exec();
   res.status(200).json(notes);
 });
 app.post("/note", async (req, res) => {
-  const note = await Note.create(noteToBeCreated);
+  const newNote = req.body;
+  const note = await Note.create(newNote);
   res.status(201).json(note.toJSON());
 });
 connect()
